@@ -6,10 +6,10 @@ import { Server as SocketIOServer } from 'socket.io';
 import { setupSocketHandlers } from './src/lib/socket-server';
 
 const dev = process.env.NODE_ENV !== 'production';
-const hostname = 'localhost';
+const hostname = process.env.HOSTNAME || '0.0.0.0';
 const port = parseInt(process.env.PORT || '3000', 10);
 
-const app = next({ dev, hostname, port });
+const app = next({ dev, hostname: dev ? 'localhost' : hostname, port });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
@@ -32,11 +32,12 @@ app.prepare().then(() => {
 
   setupSocketHandlers(io);
 
-  httpServer.listen(port, () => {
+  httpServer.listen(port, hostname, () => {
+    const displayHost = dev ? 'localhost' : hostname;
     console.log(
-      `\n  🎉 Audience Engage ready on http://${hostname}:${port}\n` +
-      `  📊 Host Console: http://${hostname}:${port}\n` +
-      `  ⚡ Socket.IO: ws://${hostname}:${port}\n`
+      `\n  🎉 Audience Engage ready on http://${displayHost}:${port}\n` +
+      `  📊 Host Console: http://${displayHost}:${port}\n` +
+      `  ⚡ Socket.IO: ws://${displayHost}:${port}\n`
     );
   });
 });
