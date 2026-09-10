@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'PulseRoom — Live Audience Engagement',
+  title: 'PulsePoll — Live Audience Engagement',
   description: 'Real-time polls, Q&A, and quizzes for live events. No signup required.',
   icons: { icon: '/favicon.ico' },
 };

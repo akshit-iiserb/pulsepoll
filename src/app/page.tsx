@@ -82,7 +82,7 @@ export default function LandingPage() {
           <div className="w-8 h-8 rounded-lg bg-rose-500 flex items-center justify-center shadow-rose-glow-sm">
             <Zap className="w-4 h-4 text-white" />
           </div>
-          <span className="text-lg font-bold text-white">PulseRoom</span>
+          <span className="text-lg font-bold text-white">PulsePoll</span>
         </div>
       </nav>
 
@@ -230,7 +230,7 @@ export default function LandingPage() {
       </main>
 
       <footer className="relative z-10 text-center py-6 text-muted-text text-xs">
-        PulseRoom · Real-time audience engagement · No signup required
+        PulsePoll · Real-time audience engagement · No signup required
       </footer>
     </div>
   );

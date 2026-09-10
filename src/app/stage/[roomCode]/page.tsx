@@ -112,7 +112,7 @@ export default function StagePage() {
           </div>
           <div>
             <p className="text-lg font-bold text-white">{roomName || roomCode}</p>
-            <p className="text-sm text-muted-text">PulseRoom · Live Session</p>
+            <p className="text-sm text-muted-text">PulsePoll · Live Session</p>
           </div>
         </div>
 
