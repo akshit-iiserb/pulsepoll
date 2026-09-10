@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #0b0b14;
+  --surface: #111120;
+  --surface2: #191928;
+  --surface3: #20203a;
+  --border: #252540;
+  --border2: #333355;
+  --pink: #a84e7e;
+  --pink-dim: #7a3a5c;
+  --pink-glow: rgba(168, 78, 126, 0.2);
+  --text: #e4e4f2;
+  --text-muted: #7878a0;
+  --text-dim: #555580;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--pink-dim); }
+
+/* ─── Focus styles ──────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Selection ─────────────────────────────────────────────────────────── */
+::selection { background: var(--pink-glow); color: var(--text); }
+
+/* ─── Utility classes ───────────────────────────────────────────────────── */
+@layer components {
+  .card {
+    @apply bg-dark-surface border border-dark-border rounded-2xl p-6 shadow-card;
+  }
+
+  .card-sm {
+    @apply bg-dark-surface border border-dark-border rounded-xl p-4 shadow-card;
+  }
+
+  .btn-primary {
+    @apply bg-rose-500 hover:bg-rose-400 text-white font-semibold px-5 py-2.5 rounded-xl
+           transition-all duration-200 active:scale-95 shadow-rose-glow-sm disabled:opacity-50
+           disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+
+  .btn-secondary {
+    @apply bg-dark-surface2 hover:bg-dark-surface3 text-dark-border2 hover:text-white
+           border border-dark-border hover:border-dark-border2 font-medium px-5 py-2.5 rounded-xl
+           transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply hover:bg-dark-surface2 text-muted-text hover:text-white font-medium px-4 py-2 rounded-lg
+           transition-all duration-200 active:scale-95;
+  }
+
+  .btn-danger {
+    @apply bg-red-900/40 hover:bg-red-900/60 text-red-400 hover:text-red-300 border border-red-900/60
+           font-medium px-4 py-2 rounded-xl transition-all duration-200 active:scale-95;
+  }
+
+  .input {
+    @apply bg-dark-surface2 border border-dark-border focus:border-rose-600 text-white
+           placeholder:text-muted-text rounded-xl px-4 py-3 w-full transition-colors duration-200
+           outline-none text-sm;
+  }
+
+  .label {
+    @apply text-xs font-medium text-muted-text uppercase tracking-wider mb-1.5 block;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+  }
+
+  .badge-pink {
+    @apply badge bg-rose-900/40 text-rose-300 border border-rose-800/40;
+  }
+
+  .badge-green {
+    @apply badge bg-green-900/40 text-green-400 border border-green-800/40;
+  }
+
+  .badge-amber {
+    @apply badge bg-amber-900/40 text-amber-400 border border-amber-800/40;
+  }
+
+  .badge-red {
+    @apply badge bg-red-900/40 text-red-400 border border-red-800/40;
+  }
+
+  .tab-active {
+    @apply border-b-2 border-rose-500 text-white;
+  }
+
+  .tab-inactive {
+    @apply border-b-2 border-transparent text-muted-text hover:text-white transition-colors;
+  }
+
+  .divider {
+    @apply border-t border-dark-border my-4;
+  }
+
+  .glow-text {
+    text-shadow: 0 0 30px rgba(168, 78, 126, 0.5);
+  }
+
+  .code-display {
+    @apply font-mono text-4xl font-bold tracking-[0.3em] text-white;
+  }
+}
+
+/* ─── Animations ────────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--surface) 25%,
+    var(--surface3) 50%,
+    var(--surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes countdownPulse {
+  0%, 100% { color: var(--text); }
+  50% { color: var(--pink); }
+}
+
+.countdown-urgent {
+  animation: countdownPulse 0.5s ease-in-out infinite;
+}
+
+/* ─── Poll bar animation ─────────────────────────────────────────────────── */
+.poll-bar {
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}

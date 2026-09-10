@@ -1,0 +1,123 @@
+// Prisma schema for Interactive Audience Engagement Platform
+// Database: SQLite (dev) — swap to PostgreSQL for production
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Room {
+  id                String             @id @default(cuid())
+  code              String             @unique
+  hostSecret        String
+  name              String
+  isActive          Boolean            @default(true)
+  requireModeration Boolean            @default(false)
+  createdAt         DateTime           @default(now())
+
+  polls       Poll[]
+  questions   QAQuestion[]
+  quizzes     Quiz[]
+  leaderboard LeaderboardEntry[]
+}
+
+model Poll {
+  id        String         @id @default(cuid())
+  roomId    String
+  room      Room           @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  title     String
+  // single | multi | assessment | word-cloud
+  type      String         @default("single")
+  // open | locked | revealed
+  state     String         @default("open")
+  options   PollOption[]
+  votes     Vote[]
+  words     WordResponse[]
+  createdAt DateTime       @default(now())
+}
+
+model WordResponse {
+  id        String   @id @default(cuid())
+  pollId    String
+  poll      Poll     @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  word      String
+  sessionId String
+  createdAt DateTime @default(now())
+
+  @@index([pollId])
+}
+
+model PollOption {
+  id        String  @id @default(cuid())
+  pollId    String
+  poll      Poll    @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  text      String
+  isCorrect Boolean @default(false)
+  votes     Vote[]
+}
+
+model Vote {
+  id        String      @id @default(cuid())
+  pollId    String
+  poll      Poll        @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  optionId  String?
+  option    PollOption? @relation(fields: [optionId], references: [id])
+  sessionId String
+  createdAt DateTime    @default(now())
+
+  @@unique([pollId, sessionId])
+}
+
+model QAQuestion {
+  id          String   @id @default(cuid())
+  roomId      String
+  room        Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  text        String
+  displayName String   @default("Anonymous")
+  isAnonymous Boolean  @default(false)
+  sessionId   String
+  upvotes     Int      @default(0)
+  // pending | approved | answered | pinned | archived | rejected
+  status      String   @default("approved")
+  createdAt   DateTime @default(now())
+}
+
+model Quiz {
+  id                   String         @id @default(cuid())
+  roomId               String
+  room                 Room           @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  title                String
+  // waiting | active | finished
+  state                String         @default("waiting")
+  currentQuestionIndex Int            @default(0)
+  questions            QuizQuestion[]
+  createdAt            DateTime       @default(now())
+}
+
+model QuizQuestion {
+  id        String   @id @default(cuid())
+  quizId    String
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  text      String
+  // JSON: [{id, text, isCorrect}]
+  options   String
+  timeLimit Int      @default(20)
+  order     Int
+  createdAt DateTime @default(now())
+}
+
+model LeaderboardEntry {
+  id          String   @id @default(cuid())
+  roomId      String
+  room        Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  sessionId   String
+  displayName String
+  score       Int      @default(0)
+  updatedAt   DateTime @updatedAt
+
+  @@unique([roomId, sessionId])
+}
