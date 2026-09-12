@@ -74,9 +74,11 @@ export default function ParticipantPage() {
     const off4 = on('poll:update', setActivePoll);
     const off5 = on('poll:removed', () => setActivePoll(null));
     const off6 = on('qa:update', setQuestions);
-    const off7 = on('quiz:question', (q, idx, total) => {
-      setActiveQuizQ(q);
-      setQuizIndex(idx);
+    // quiz:question now arrives as a single object { question, index, total }
+    const off7 = on('quiz:question', (payload: any) => {
+      const { question, index, total } = payload;
+      setActiveQuizQ(question);
+      setQuizIndex(index);
       setQuizTotal(total);
       setQuizTimesUp(false);
       setActiveTab('poll');

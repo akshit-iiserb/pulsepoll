@@ -46,7 +46,7 @@ export default function ActivePollControl({ poll, onSetState, onDelete }: Active
 
       {/* Results preview */}
       {isWordCloud ? (
-        <div className="rounded-xl bg-dark-surface2/60 border border-dark-border/60 overflow-hidden">
+        <div className="rounded-xl bg-dark-surface2/60 border border-dark-border/60 overflow-hidden" style={{ height: 240 }}>
           <WordCloudDisplay
             words={poll.words || []}
             emptyMessage="Audience words will stream here live as they are submitted."

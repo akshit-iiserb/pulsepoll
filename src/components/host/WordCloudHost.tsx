@@ -129,7 +129,7 @@ export default function WordCloudHost({
                 </span>
               </div>
 
-              <div className="pt-8 pb-3 px-3">
+              <div style={{ height: 320 }}>
                 <WordCloudDisplay
                   words={activePoll.words || []}
                   emptyMessage="Live responses will appear here as audience submits words in real-time."

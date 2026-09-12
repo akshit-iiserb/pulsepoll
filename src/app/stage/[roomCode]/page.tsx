@@ -75,9 +75,10 @@ export default function StagePage() {
       setLeaderboard(lb);
       if (lb.length > 0) setStageView('leaderboard');
     });
-    const off9 = on('quiz:question', (q, idx, total) => {
-      setActiveQuizQ(q);
-      setQuizIndex(idx);
+    const off9 = on('quiz:question', (payload: any) => {
+      const { question, index, total } = payload;
+      setActiveQuizQ(question);
+      setQuizIndex(index);
       setQuizTotal(total);
       setQuizEnded(false);
       setStageView('quiz');
@@ -184,7 +185,7 @@ export default function StagePage() {
                   )}
                 </div>
 
-                <div className="flex-1 flex items-center justify-center p-2 min-h-[360px]">
+                <div className="flex-1 min-h-0" style={{ height: 420 }}>
                   <WordCloudDisplay
                     words={activePoll.words || []}
                     emptyMessage="Waiting for audience to submit words... Scan QR code to participate!"

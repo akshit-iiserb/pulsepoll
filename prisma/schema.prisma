@@ -84,6 +84,18 @@ model QAQuestion {
   // pending | approved | answered | pinned | archived | rejected
   status      String   @default("approved")
   createdAt   DateTime @default(now())
+
+  upvoteRecords Upvote[]
+}
+
+model Upvote {
+  id         String     @id @default(cuid())
+  questionId String
+  question   QAQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  sessionId  String
+  createdAt  DateTime   @default(now())
+
+  @@unique([questionId, sessionId])
 }
 
 model Quiz {

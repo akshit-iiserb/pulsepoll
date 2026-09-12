@@ -64,7 +64,9 @@ export default function HostConsolePage() {
   // Request pending queue on join
   useEffect(() => {
     if (!joined || !hostSecret) return;
-    emit('qa:getPending', { roomCode, hostSecret });
+    emit('qa:getPending', { roomCode, hostSecret }).then((data: any) => {
+      if (data?.pendingQueue) setPendingQuestions(data.pendingQueue);
+    }).catch(() => {});
   }, [joined, hostSecret, roomCode, emit]);
 
   // Socket events
@@ -110,9 +112,10 @@ export default function HostConsolePage() {
     setActivePoll(null);
   }, [activePoll, hostSecret, emit]);
 
-  const handleModerate = useCallback((questionId: string, action: QAStatus) => {
+  const handleModerate = useCallback(async (questionId: string, action: QAStatus) => {
     if (!hostSecret) return;
-    emit('qa:moderate', { questionId, action, hostSecret });
+    const res = await emit('qa:moderate', { questionId, action, hostSecret });
+    // Optimistically remove from pending
     setPendingQuestions((prev) => prev.filter((q) => q.id !== questionId));
   }, [hostSecret, emit]);
 

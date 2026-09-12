@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  turbopack: {},
+  // Required for Prisma to work in serverless environments
+  serverExternalPackages: ['@prisma/client', 'prisma'],
+
   async headers() {
     return [
       {
@@ -14,7 +16,7 @@ const nextConfig = {
       },
     ];
   },
-  // Webpack fallback for non-turbopack builds
+
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {

@@ -155,7 +155,7 @@ export default function WordCloudParticipant({ poll, onSubmitWord }: WordCloudPa
             </span>
           )}
         </div>
-        <div className="rounded-xl bg-dark-surface2/60 border border-dark-border/60 overflow-hidden">
+        <div className="rounded-xl bg-dark-surface2/60 border border-dark-border/60 overflow-hidden" style={{ height: 280 }}>
           <WordCloudDisplay
             words={poll.words || []}
             emptyMessage="No words submitted yet. Be the first to add one!"
