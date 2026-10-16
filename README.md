@@ -305,7 +305,7 @@ pulsepoll/
 
 <div align="center">
 
-Made with ❤️ by **CyberHeathens Coding Club**
+Made with ❤️ by **CyberHeathens Coding Club --IISERB**
 
 [IISER Bhopal](https://www.iiserb.ac.in) · Bhopal, India
 
